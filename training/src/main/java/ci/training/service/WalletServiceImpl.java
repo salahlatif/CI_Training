@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import ci.training.beans.Customer;
 import ci.training.beans.Wallet;
+import ci.training.exceptions.InsufficientBalanceException;
 import ci.training.repo.WalletRepo;
 
 public class WalletServiceImpl implements WalletService{
@@ -38,7 +39,15 @@ public class WalletServiceImpl implements WalletService{
 
 	public Customer withdraw(String phone, BigDecimal amount) {
 		// TODO Auto-generated method stub
-		return null;
+		Customer c = repo.find(phone);
+		if(c == null){
+			return null;
+		}
+		if(c.getWallet().getBalance().compareTo(amount)<0){
+			throw new InsufficientBalanceException();
+		}
+		c.getWallet().setBalance(c.getWallet().getBalance().subtract(amount));
+		return c;
 	}
 
 	public Customer deposit(String phone, BigDecimal amount) {

@@ -64,4 +64,52 @@ public class WalletServiceTest {
 		
 		assertTrue(service.showBalance("9876544")==null);
 	}
+	
+	
+	//1. Success
+	//2. If balance is less than the amount
+	//3. invalid mobile no
+	
+	@Test
+	public void test_withdraw_success(){
+		Customer customer = new Customer("AAA", "9850276767", new Wallet(new BigDecimal(400)));
+		when(repo.find("9850276767")).thenReturn(customer);
+		
+		assertEquals(new BigDecimal(200), service.withdraw("9850276767", new BigDecimal(200)).getWallet().getBalance());
+	}
+
+	@Test(expected = ci.training.exceptions.InsufficientBalanceException.class)
+	public void test_withdraw_insufficientBalance(){
+		Customer customer = new Customer("AAA", "9850276767", new Wallet(new BigDecimal(400)));
+		when(repo.find("9850276767")).thenReturn(customer);
+				
+		service.withdraw("9850276767", new BigDecimal(500));
+	}
+	
+	
+	@Test
+	public void test_withdraw_returnsNullForInvalidAccount(){
+		
+		when(repo.find("9876544")).thenReturn(null);
+		
+		assertTrue(service.withdraw("9876544", new BigDecimal(9999))==null);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
