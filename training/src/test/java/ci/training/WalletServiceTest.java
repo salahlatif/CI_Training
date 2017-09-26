@@ -96,13 +96,32 @@ public class WalletServiceTest {
 	}
 	
 	
+	//1. success
+	//2. amount should be valid
+	//3. invalid mobile no.
+	
+	@Test
+	public void test_deposit_success(){
+		Customer customer = new Customer("AAA", "9850276767", new Wallet(new BigDecimal(400)));
+		when(repo.find("9850276767")).thenReturn(customer);
+
+		assertEquals(new BigDecimal(600), service.deposit("9850276767", new BigDecimal(200)).getWallet().getBalance());
+	}
+	
+	@Test(expected= IllegalArgumentException.class)
+	public void test_deposit_amountShouldNotBeLessThanZero(){
+		
+		service.deposit("9850276767", new BigDecimal(-200));
+	}
 	
 	
-	
-	
-	
-	
-	
+	@Test
+	public void test_deposit_returnsNullForInvalidAccount(){
+		
+		when(repo.find("9876544")).thenReturn(null);
+		
+		assertTrue(service.deposit("9876544", new BigDecimal(9999))==null);
+	}
 	
 	
 	

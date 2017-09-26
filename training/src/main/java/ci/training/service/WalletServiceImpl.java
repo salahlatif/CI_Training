@@ -52,7 +52,17 @@ public class WalletServiceImpl implements WalletService{
 
 	public Customer deposit(String phone, BigDecimal amount) {
 		// TODO Auto-generated method stub
-		return null;
+		
+		if(amount.doubleValue()<=0){
+			
+			throw new IllegalArgumentException();
+		}
+		Customer c = repo.find(phone);
+		if(c == null){
+			return null;
+		}
+		c.getWallet().setBalance(c.getWallet().getBalance().add(amount));
+		return c;
 	}
 
 	public Customer fundTransfer(String fromPhone, String toPhone, BigDecimal amount) {
