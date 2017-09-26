@@ -105,7 +105,7 @@ public class WalletServiceTest {
 		Customer customer = new Customer("AAA", "9850276767", new Wallet(new BigDecimal(400)));
 		when(repo.find("9850276767")).thenReturn(customer);
 
-		assertEquals(new BigDecimal(600), service.deposit("9850276767", new BigDecimal(300)).getWallet().getBalance());
+		assertEquals(new BigDecimal(600), service.deposit("9850276767", new BigDecimal(200)).getWallet().getBalance());
 	}
 	
 	@Test(expected= IllegalArgumentException.class)
