@@ -28,9 +28,9 @@ public class WalletServiceTest {
 		MockitoAnnotations.initMocks(this);
 		service = new WalletServiceImpl(repo);
 	}
-	@Test
+	@Test // change it back to 400 to suc
 	public void test_createWallet_success() {
-		Customer customer = new Customer("AAA", "9850276767", new Wallet(new BigDecimal(400)));
+		Customer customer = new Customer("AAA", "9850276767", new Wallet(new BigDecimal(40)));
 		when(repo.save(customer)).thenReturn(true);
 		assertEquals(customer, service.createWallet("AAA", "9850276767", new BigDecimal(400)));
 	}
